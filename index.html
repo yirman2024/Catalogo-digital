@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catálogo de Productos</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background: #f4f4f4;
+    }
+    header {
+        text-align: center;
+        padding: 20px;
+        background: #000;
+        color: #fff;
+        font-size: 24px;
+    }
+    .catalogo {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        padding: 20px;
+    }
+    .producto {
+        background: #fff;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+    .producto img {
+        max-width: 100%;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+    .producto h3 {
+        margin: 10px 0;
+    }
+    .whatsapp-btn {
+        display: inline-block;
+        padding: 10px 15px;
+        background: #25d366;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+    /* Modal Carrusel */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.9);
+        justify-content: center;
+        align-items: center;
+    }
+    .modal img {
+        max-width: 90%;
+        max-height: 80%;
+        border-radius: 10px;
+    }
+    .cerrar {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        font-size: 30px;
+        color: #fff;
+        cursor: pointer;
+    }
+    .flecha {
+        position: absolute;
+        top: 50%;
+        font-size: 40px;
+        color: #fff;
+        cursor: pointer;
+        user-select: none;
+    }
+    .izquierda { left: 20px; }
+    .derecha { right: 20px; }
+</style>
+</head>
+<body>
+
+<header>Catálogo de Productos</header>
+
+<div class="catalogo" id="catalogo">
+    <!-- Ejemplo de Producto -->
+    <div class="producto" data-imagenes='["img1.jpg","img2.jpg","img3.jpg"]' data-nombre="Producto 1">
+        <img src="img1.jpg" alt="Producto 1">
+        <h3>Producto 1</h3>
+        <a class="whatsapp-btn" target="_blank">Consultar por WhatsApp</a>
+    </div>
+    <div class="producto" data-imagenes='["img4.jpg","img5.jpg"]' data-nombre="Producto 2">
+        <img src="img4.jpg" alt="Producto 2">
+        <h3>Producto 2</h3>
+        <a class="whatsapp-btn" target="_blank">Consultar por WhatsApp</a>
+    </div>
+</div>
+
+<!-- Modal Carrusel -->
+<div class="modal" id="modal">
+    <span class="cerrar" id="cerrar">&times;</span>
+    <span class="flecha izquierda" id="anterior">&#10094;</span>
+    <img id="imagenModal">
+    <span class="flecha derecha" id="siguiente">&#10095;</span>
+</div>
+
+<script>
+const productos = document.querySelectorAll('.producto');
+const modal = document.getElementById('modal');
+const imgModal = document.getElementById('imagenModal');
+let imagenesActuales = [];
+let indiceActual = 0;
+
+// Generar enlaces de WhatsApp
+productos.forEach(prod => {
+    const nombre = prod.dataset.nombre;
+    const btn = prod.querySelector('.whatsapp-btn');
+    const mensaje = encodeURIComponent(`Hola, estoy interesado en el ${nombre}. ¿Podrías darme más información?`);
+    btn.href = `https://wa.me/573117947704?text=${mensaje}`;
+    
+    // Evento abrir carrusel
+    prod.querySelector('img').addEventListener('click', () => {
+        imagenesActuales = JSON.parse(prod.dataset.imagenes);
+        indiceActual = 0;
+        mostrarImagen();
+        modal.style.display = 'flex';
+    });
+});
+
+// Mostrar imagen en modal
+function mostrarImagen() {
+    imgModal.src = imagenesActuales[indiceActual];
+}
+
+// Navegación
+document.getElementById('anterior').onclick = () => {
+    indiceActual = (indiceActual - 1 + imagenesActuales.length) % imagenesActuales.length;
+    mostrarImagen();
+};
+document.getElementById('siguiente').onclick = () => {
+    indiceActual = (indiceActual + 1) % imagenesActuales.length;
+    mostrarImagen();
+};
+
+// Cerrar modal
+document.getElementById('cerrar').onclick = () => {
+    modal.style.display = 'none';
+};
+
+// Swipe en móviles
+let startX = 0;
+imgModal.addEventListener('touchstart', e => startX = e.touches[0].clientX);
+imgModal.addEventListener('touchend', e => {
+    let endX = e.changedTouches[0].clientX;
+    if (startX > endX + 50) {
+        indiceActual = (indiceActual + 1) % imagenesActuales.length;
+        mostrarImagen();
+    } else if (startX < endX - 50) {
+        indiceActual = (indiceActual - 1 + imagenesActuales.length) % imagenesActuales.length;
+        mostrarImagen();
+    }
+});
+</script>
+
+</body>
+</html>
