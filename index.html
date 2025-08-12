@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Catálogo de Productos</title>
+<title>Catálogo Tenis Puma</title>
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -43,23 +43,22 @@
         padding: 10px 15px;
         background: #25d366;
         color: #fff;
-        text-decoration: none;
         border-radius: 5px;
         font-size: 14px;
         margin-top: 5px;
+        cursor: pointer;
     }
-    /* Modal Carrusel */
-    .modal {
+    /* Modal carrusel */
+    .modal, .modal-form {
         display: none;
         position: fixed;
         z-index: 9999;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
+        left: 0; top: 0;
+        width: 100%; height: 100%;
         background: rgba(0,0,0,0.9);
         justify-content: center;
         align-items: center;
+        padding: 20px;
     }
     .modal img {
         max-width: 90%;
@@ -68,8 +67,7 @@
     }
     .cerrar {
         position: absolute;
-        top: 20px;
-        right: 30px;
+        top: 20px; right: 30px;
         font-size: 30px;
         color: #fff;
         cursor: pointer;
@@ -84,32 +82,88 @@
     }
     .izquierda { left: 20px; }
     .derecha { right: 20px; }
+    /* Modal formulario */
+    .formulario {
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 400px;
+        width: 100%;
+    }
+    .formulario h2 {
+        margin-bottom: 15px;
+        text-align: center;
+    }
+    .formulario input, .formulario select, .formulario textarea {
+        width: 100%;
+        padding: 8px;
+        margin: 5px 0 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    .formulario button {
+        width: 100%;
+        padding: 10px;
+        background: #25d366;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
 </style>
 </head>
 <body>
 
-<header>Catálogo de Productos</header>
+<header>Catálogo Tenis Puma</header>
 
 <div class="catalogo" id="catalogo">
-    <!-- Ejemplo de Producto -->
-    <div class="producto" data-imagenes='["img1.jpg","img2.jpg","img3.jpg"]' data-nombre="Producto 1">
-        <img src="img1.jpg" alt="Producto 1">
-        <h3>Producto 1</h3>
-        <a class="whatsapp-btn" target="_blank">Consultar por WhatsApp</a>
-    </div>
-    <div class="producto" data-imagenes='["img4.jpg","img5.jpg"]' data-nombre="Producto 2">
-        <img src="img4.jpg" alt="Producto 2">
-        <h3>Producto 2</h3>
-        <a class="whatsapp-btn" target="_blank">Consultar por WhatsApp</a>
+    <div class="producto" 
+         data-imagenes='["img/puma1.jpg","img/puma2.jpg","img/puma3.jpg","img/puma4.jpg"]' 
+         data-nombre="Tenis Puma">
+        <img src="img/puma1.jpg" alt="Tenis Puma">
+        <h3>Tenis Puma</h3>
+        <div class="whatsapp-btn">Comprar</div>
     </div>
 </div>
 
 <!-- Modal Carrusel -->
 <div class="modal" id="modal">
-    <span class="cerrar" id="cerrar">&times;</span>
+    <span class="cerrar" id="cerrarModal">&times;</span>
     <span class="flecha izquierda" id="anterior">&#10094;</span>
     <img id="imagenModal">
     <span class="flecha derecha" id="siguiente">&#10095;</span>
+</div>
+
+<!-- Modal Formulario -->
+<div class="modal-form" id="modalForm">
+    <div class="formulario">
+        <span class="cerrar" id="cerrarForm">&times;</span>
+        <h2>Completa tu pedido</h2>
+        <input type="text" id="nombreCliente" placeholder="Nombre completo" required>
+        <input type="tel" id="telefonoCliente" placeholder="Teléfono" required>
+        <input type="text" id="direccionCliente" placeholder="Dirección" required>
+        <input type="text" id="barrioCliente" placeholder="Barrio" required>
+        <select id="colorCliente" required>
+            <option value="">Seleccione color</option>
+            <option>Rojo</option>
+            <option>Azul</option>
+            <option>Negro</option>
+            <option>Blanco</option>
+            <option>Gris</option>
+        </select>
+        <select id="tallaCliente" required>
+            <option value="">Seleccione talla</option>
+            <script>
+                for(let i=35; i<=43; i++) {
+                    document.write(`<option>${i}</option>`);
+                }
+            </script>
+        </select>
+        <textarea id="descripcionCliente" placeholder="Descripción opcional"></textarea>
+        <input type="tel" id="contactoOpcional" placeholder="Número de contacto opcional">
+        <button id="enviarWhatsApp">Enviar por WhatsApp</button>
+    </div>
 </div>
 
 <script>
@@ -118,29 +172,28 @@ const modal = document.getElementById('modal');
 const imgModal = document.getElementById('imagenModal');
 let imagenesActuales = [];
 let indiceActual = 0;
+let productoSeleccionado = "";
 
-// Generar enlaces de WhatsApp
+// Modal imágenes
 productos.forEach(prod => {
     const nombre = prod.dataset.nombre;
-    const btn = prod.querySelector('.whatsapp-btn');
-    const mensaje = encodeURIComponent(`Hola, estoy interesado en el ${nombre}. ¿Podrías darme más información?`);
-    btn.href = `https://wa.me/573117947704?text=${mensaje}`;
-    
-    // Evento abrir carrusel
     prod.querySelector('img').addEventListener('click', () => {
         imagenesActuales = JSON.parse(prod.dataset.imagenes);
         indiceActual = 0;
         mostrarImagen();
         modal.style.display = 'flex';
     });
+
+    prod.querySelector('.whatsapp-btn').addEventListener('click', () => {
+        productoSeleccionado = nombre;
+        document.getElementById('modalForm').style.display = 'flex';
+    });
 });
 
-// Mostrar imagen en modal
 function mostrarImagen() {
     imgModal.src = imagenesActuales[indiceActual];
 }
 
-// Navegación
 document.getElementById('anterior').onclick = () => {
     indiceActual = (indiceActual - 1 + imagenesActuales.length) % imagenesActuales.length;
     mostrarImagen();
@@ -150,25 +203,40 @@ document.getElementById('siguiente').onclick = () => {
     mostrarImagen();
 };
 
-// Cerrar modal
-document.getElementById('cerrar').onclick = () => {
-    modal.style.display = 'none';
-};
+document.getElementById('cerrarModal').onclick = () => modal.style.display = 'none';
+document.getElementById('cerrarForm').onclick = () => document.getElementById('modalForm').style.display = 'none';
 
-// Swipe en móviles
-let startX = 0;
-imgModal.addEventListener('touchstart', e => startX = e.touches[0].clientX);
-imgModal.addEventListener('touchend', e => {
-    let endX = e.changedTouches[0].clientX;
-    if (startX > endX + 50) {
-        indiceActual = (indiceActual + 1) % imagenesActuales.length;
-        mostrarImagen();
-    } else if (startX < endX - 50) {
-        indiceActual = (indiceActual - 1 + imagenesActuales.length) % imagenesActuales.length;
-        mostrarImagen();
+// Enviar WhatsApp
+document.getElementById('enviarWhatsApp').addEventListener('click', () => {
+    let nombre = document.getElementById('nombreCliente').value;
+    let telefono = document.getElementById('telefonoCliente').value;
+    let direccion = document.getElementById('direccionCliente').value;
+    let barrio = document.getElementById('barrioCliente').value;
+    let color = document.getElementById('colorCliente').value;
+    let talla = document.getElementById('tallaCliente').value;
+    let descripcion = document.getElementById('descripcionCliente').value || "No especificado";
+    let contacto = document.getElementById('contactoOpcional').value || "No especificado";
+
+    if (!nombre || !telefono || !direccion || !barrio || !color || !talla) {
+        alert("Por favor completa todos los campos obligatorios.");
+        return;
     }
+
+    let mensaje = `Hola, quiero comprar: ${productoSeleccionado}%0A` +
+                  `Nombre: ${nombre}%0A` +
+                  `Teléfono: ${telefono}%0A` +
+                  `Dirección: ${direccion}%0A` +
+                  `Barrio: ${barrio}%0A` +
+                  `Color: ${color}%0A` +
+                  `Talla: ${talla}%0A` +
+                  `Descripción: ${descripcion}%0A` +
+                  `Número de contacto opcional: ${contacto}`;
+
+    window.open(`https://wa.me/573117947704?text=${mensaje}`, '_blank');
 });
 </script>
 
 </body>
 </html>
+
+
