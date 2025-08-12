@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Catálogo Tenis Puma</title>
 <style>
-    /* ======== ESTILOS GENERALES ======== */
     body {
         font-family: Arial, sans-serif;
         margin: 0;
@@ -18,12 +17,14 @@
         color: #fff;
         font-size: 24px;
     }
-    /* ======== CATÁLOGO EN CUADRÍCULA ======== */
+    /* Catálogo */
     .catalogo {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        gap: 15px;
         padding: 20px;
+        max-width: 900px;
+        margin: auto;
     }
     .producto {
         background: #fff;
@@ -33,8 +34,8 @@
         text-align: center;
     }
     .producto img {
-        width: 250px;
-        height: 250px;
+        width: 220px;
+        height: 220px;
         object-fit: cover;
         border-radius: 8px;
         cursor: pointer;
@@ -42,7 +43,6 @@
     .producto h3 {
         margin: 10px 0;
     }
-    /* Botón de WhatsApp */
     .whatsapp-btn {
         display: inline-block;
         padding: 10px 15px;
@@ -53,7 +53,7 @@
         margin-top: 5px;
         cursor: pointer;
     }
-    /* ======== MODAL DEL CARRUSEL ======== */
+    /* Modal carrusel */
     .modal, .modal-form {
         display: none;
         position: fixed;
@@ -65,17 +65,27 @@
         align-items: center;
         padding: 20px;
     }
-    .modal img {
+    .modal-content {
+        position: relative;
         max-width: 90%;
         max-height: 80%;
+    }
+    .modal img {
+        max-width: 100%;
+        max-height: 100%;
         border-radius: 10px;
+        display: block;
+        margin: auto;
     }
     .cerrar {
         position: absolute;
-        top: 20px; right: 30px;
-        font-size: 30px;
-        color: #fff;
+        top: 10px; 
+        right: 15px;
+        font-size: 28px;
+        font-weight: bold;
+        color: red;
         cursor: pointer;
+        z-index: 10000;
     }
     .flecha {
         position: absolute;
@@ -87,13 +97,14 @@
     }
     .izquierda { left: 20px; }
     .derecha { right: 20px; }
-    /* ======== FORMULARIO DE PEDIDO ======== */
+    /* Formulario */
     .formulario {
         background: #fff;
         padding: 20px;
         border-radius: 10px;
         max-width: 400px;
         width: 100%;
+        position: relative;
     }
     .formulario h2 {
         margin-bottom: 15px;
@@ -122,7 +133,6 @@
 
 <header>Catálogo Tenis Puma</header>
 
-<!-- ======== PRODUCTO ======== -->
 <div class="catalogo" id="catalogo">
     <div class="producto" 
          data-imagenes='["imagen/puma1.jpeg","imagen/puma2.jpeg","imagen/puma3.jpeg","imagen/puma4.jpeg"]' 
@@ -133,15 +143,17 @@
     </div>
 </div>
 
-<!-- ======== MODAL CARRUSEL ======== -->
+<!-- Modal carrusel -->
 <div class="modal" id="modal">
-    <span class="cerrar" id="cerrarModal">&times;</span>
-    <span class="flecha izquierda" id="anterior">&#10094;</span>
-    <img id="imagenModal">
-    <span class="flecha derecha" id="siguiente">&#10095;</span>
+    <div class="modal-content">
+        <span class="cerrar" id="cerrarModal">&times;</span>
+        <span class="flecha izquierda" id="anterior">&#10094;</span>
+        <img id="imagenModal">
+        <span class="flecha derecha" id="siguiente">&#10095;</span>
+    </div>
 </div>
 
-<!-- ======== MODAL FORMULARIO ======== -->
+<!-- Modal formulario -->
 <div class="modal-form" id="modalForm">
     <div class="formulario">
         <span class="cerrar" id="cerrarForm">&times;</span>
@@ -208,9 +220,17 @@ document.getElementById('siguiente').onclick = () => {
     mostrarImagen();
 };
 
+// Cerrar modal con X
 document.getElementById('cerrarModal').onclick = () => modal.style.display = 'none';
 document.getElementById('cerrarForm').onclick = () => document.getElementById('modalForm').style.display = 'none';
 
+// Cerrar modal al hacer clic fuera
+window.addEventListener('click', (e) => {
+    if (e.target === modal) modal.style.display = 'none';
+    if (e.target === document.getElementById('modalForm')) document.getElementById('modalForm').style.display = 'none';
+});
+
+// Enviar a WhatsApp
 document.getElementById('enviarWhatsApp').addEventListener('click', () => {
     let nombre = document.getElementById('nombreCliente').value;
     let telefono = document.getElementById('telefonoCliente').value;
@@ -242,6 +262,7 @@ document.getElementById('enviarWhatsApp').addEventListener('click', () => {
 
 </body>
 </html>
+
 
 
 
