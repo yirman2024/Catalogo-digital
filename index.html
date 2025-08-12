@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Catálogo Tenis Puma</title>
 <style>
+    /* ======== ESTILOS GENERALES ======== */
     body {
         font-family: Arial, sans-serif;
         margin: 0;
@@ -17,6 +18,7 @@
         color: #fff;
         font-size: 24px;
     }
+    /* ======== CATÁLOGO EN CUADRÍCULA ======== */
     .catalogo {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -38,6 +40,7 @@
     .producto h3 {
         margin: 10px 0;
     }
+    /* Botón de WhatsApp */
     .whatsapp-btn {
         display: inline-block;
         padding: 10px 15px;
@@ -48,7 +51,7 @@
         margin-top: 5px;
         cursor: pointer;
     }
-    /* Modal carrusel */
+    /* ======== MODAL DEL CARRUSEL ======== */
     .modal, .modal-form {
         display: none;
         position: fixed;
@@ -82,7 +85,7 @@
     }
     .izquierda { left: 20px; }
     .derecha { right: 20px; }
-    /* Modal formulario */
+    /* ======== FORMULARIO DE PEDIDO ======== */
     .formulario {
         background: #fff;
         padding: 20px;
@@ -117,17 +120,18 @@
 
 <header>Catálogo Tenis Puma</header>
 
+<!-- ======== PRODUCTO ======== -->
 <div class="catalogo" id="catalogo">
     <div class="producto" 
-         data-imagenes='["img/puma1.jpeg","img/puma2.jpeg","img/puma3.jpeg","img/puma4.jpeg"]' 
+         data-imagenes='["imagen/puma1.jpeg","imagen/puma2.jpeg","imagen/puma3.jpeg","imagen/puma4.jpeg"]' 
          data-nombre="Tenis Puma">
-        <img src="img/puma1.jpg" alt="Tenis Puma">
+        <img src="imagen/puma1.jpeg" alt="Tenis Puma">
         <h3>Tenis Puma</h3>
         <div class="whatsapp-btn">Comprar</div>
     </div>
 </div>
 
-<!-- Modal Carrusel -->
+<!-- ======== MODAL CARRUSEL ======== -->
 <div class="modal" id="modal">
     <span class="cerrar" id="cerrarModal">&times;</span>
     <span class="flecha izquierda" id="anterior">&#10094;</span>
@@ -135,7 +139,7 @@
     <span class="flecha derecha" id="siguiente">&#10095;</span>
 </div>
 
-<!-- Modal Formulario -->
+<!-- ======== MODAL FORMULARIO ======== -->
 <div class="modal-form" id="modalForm">
     <div class="formulario">
         <span class="cerrar" id="cerrarForm">&times;</span>
@@ -154,6 +158,7 @@
         </select>
         <select id="tallaCliente" required>
             <option value="">Seleccione talla</option>
+            <!-- Tallas dinámicas de 35 a 43 -->
             <script>
                 for(let i=35; i<=43; i++) {
                     document.write(`<option>${i}</option>`);
@@ -167,6 +172,7 @@
 </div>
 
 <script>
+/* ======== VARIABLES ======== */
 const productos = document.querySelectorAll('.producto');
 const modal = document.getElementById('modal');
 const imgModal = document.getElementById('imagenModal');
@@ -174,7 +180,7 @@ let imagenesActuales = [];
 let indiceActual = 0;
 let productoSeleccionado = "";
 
-// Modal imágenes
+/* ======== ABRIR MODAL DE IMAGENES ======== */
 productos.forEach(prod => {
     const nombre = prod.dataset.nombre;
     prod.querySelector('img').addEventListener('click', () => {
@@ -184,16 +190,19 @@ productos.forEach(prod => {
         modal.style.display = 'flex';
     });
 
+    /* ======== ABRIR FORMULARIO DE COMPRA ======== */
     prod.querySelector('.whatsapp-btn').addEventListener('click', () => {
         productoSeleccionado = nombre;
         document.getElementById('modalForm').style.display = 'flex';
     });
 });
 
+/* ======== FUNCION PARA MOSTRAR IMAGEN ======== */
 function mostrarImagen() {
     imgModal.src = imagenesActuales[indiceActual];
 }
 
+/* ======== FLECHAS DEL CARRUSEL ======== */
 document.getElementById('anterior').onclick = () => {
     indiceActual = (indiceActual - 1 + imagenesActuales.length) % imagenesActuales.length;
     mostrarImagen();
@@ -203,10 +212,11 @@ document.getElementById('siguiente').onclick = () => {
     mostrarImagen();
 };
 
+/* ======== CERRAR MODALES ======== */
 document.getElementById('cerrarModal').onclick = () => modal.style.display = 'none';
 document.getElementById('cerrarForm').onclick = () => document.getElementById('modalForm').style.display = 'none';
 
-// Enviar WhatsApp
+/* ======== ENVIAR DATOS POR WHATSAPP ======== */
 document.getElementById('enviarWhatsApp').addEventListener('click', () => {
     let nombre = document.getElementById('nombreCliente').value;
     let telefono = document.getElementById('telefonoCliente').value;
@@ -217,11 +227,13 @@ document.getElementById('enviarWhatsApp').addEventListener('click', () => {
     let descripcion = document.getElementById('descripcionCliente').value || "No especificado";
     let contacto = document.getElementById('contactoOpcional').value || "No especificado";
 
+    // Validación de campos obligatorios
     if (!nombre || !telefono || !direccion || !barrio || !color || !talla) {
         alert("Por favor completa todos los campos obligatorios.");
         return;
     }
 
+    // Mensaje para WhatsApp
     let mensaje = `Hola, quiero comprar: ${productoSeleccionado}%0A` +
                   `Nombre: ${nombre}%0A` +
                   `Teléfono: ${telefono}%0A` +
@@ -232,9 +244,14 @@ document.getElementById('enviarWhatsApp').addEventListener('click', () => {
                   `Descripción: ${descripcion}%0A` +
                   `Número de contacto opcional: ${contacto}`;
 
+    // Abrir WhatsApp con mensaje prellenado
     window.open(`https://wa.me/573117947704?text=${mensaje}`, '_blank');
 });
 </script>
+
+</body>
+</html>
+
 
 </body>
 </html>
