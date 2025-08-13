@@ -68,14 +68,18 @@
     .modal-content {
         position: relative;
         max-width: 90%;
-        max-height: 80%;
+        max-height: 90%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     .modal img {
         max-width: 100%;
-        max-height: 100%;
+        max-height: 80vh; /* Limita altura */
         border-radius: 10px;
         display: block;
         margin: auto;
+        object-fit: contain;
     }
     .cerrar {
         position: absolute;
@@ -94,6 +98,7 @@
         color: #fff;
         cursor: pointer;
         user-select: none;
+        transform: translateY(-50%);
     }
     .izquierda { left: 20px; }
     .derecha { right: 20px; }
@@ -263,10 +268,5 @@ document.getElementById('enviarWhatsApp').addEventListener('click', () => {
 </body>
 </html>
 
-
-
-
-</body>
-</html>
 
 
