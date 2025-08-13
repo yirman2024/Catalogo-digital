@@ -16,6 +16,24 @@
         background: #000;
         color: #fff;
         font-size: 24px;
+        text-shadow: 2px 2px 5px #ff0000;
+    }
+    /* Oferta Especial */
+    .oferta {
+        background: linear-gradient(45deg, #ff0000, #ff6600);
+        color: #fff;
+        padding: 15px;
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+        text-shadow: 2px 2px 5px #000;
+        border-bottom: 4px solid #cc0000;
+    }
+    .temporizador {
+        font-size: 24px;
+        margin-top: 5px;
+        color: #ff0;
+        text-shadow: 2px 2px 5px #000;
     }
     /* Catálogo */
     .catalogo {
@@ -42,6 +60,8 @@
     }
     .producto h3 {
         margin: 10px 0;
+        color: #000;
+        text-shadow: 1px 1px 3px #ccc;
     }
     .whatsapp-btn {
         display: inline-block;
@@ -52,6 +72,7 @@
         font-size: 14px;
         margin-top: 5px;
         cursor: pointer;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
     }
     /* Modal carrusel */
     .modal, .modal-form {
@@ -75,7 +96,7 @@
     }
     .modal img {
         max-width: 100%;
-        max-height: 80vh; /* Limita altura */
+        max-height: 80vh;
         border-radius: 10px;
         display: block;
         margin: auto;
@@ -132,11 +153,40 @@
         cursor: pointer;
         font-size: 16px;
     }
+    /* Características */
+    .caracteristicas {
+        background: #fff;
+        margin: 20px auto;
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 900px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .caracteristicas h2 {
+        color: #ff6600;
+        text-align: center;
+        text-shadow: 1px 1px 4px #000;
+    }
+    .caracteristicas ul {
+        list-style: none;
+        padding: 0;
+    }
+    .caracteristicas li {
+        padding: 5px 0;
+        font-size: 16px;
+    }
 </style>
 </head>
 <body>
 
 <header>Catálogo Tenis Puma</header>
+
+<div class="oferta">
+    ¡Oferta Especial! <br>
+    2 pares por tan solo <span style="color:#ff0;">$168.000 COP</span> <br>
+    <small>Por tiempo limitado</small>
+    <div class="temporizador" id="temporizador"></div>
+</div>
 
 <div class="catalogo" id="catalogo">
     <div class="producto" 
@@ -146,6 +196,17 @@
         <h3>Tenis Puma</h3>
         <div class="whatsapp-btn">Comprar</div>
     </div>
+</div>
+
+<div class="caracteristicas">
+    <h2>Características del Producto</h2>
+    <ul>
+        <li>✅ Material: Cuero sintético de alta calidad</li>
+        <li>✅ Suela antideslizante</li>
+        <li>✅ Disponible en tallas 35 a 43</li>
+        <li>✅ Colores variados</li>
+        <li>✅ Envío rápido a todo el país</li>
+    </ul>
 </div>
 
 <!-- Modal carrusel -->
@@ -190,6 +251,28 @@
 </div>
 
 <script>
+// Temporizador persistente
+const tiempoOferta = 24 * 60 * 60 * 1000; // 24 horas
+let fin = localStorage.getItem("finOferta");
+if (!fin) {
+    fin = new Date().getTime() + tiempoOferta;
+    localStorage.setItem("finOferta", fin);
+}
+function actualizarTemporizador() {
+    let ahora = new Date().getTime();
+    let distancia = fin - ahora;
+    if (distancia < 0) {
+        document.getElementById("temporizador").innerHTML = "Oferta Finalizada";
+        return;
+    }
+    let horas = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    let minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
+    let segundos = Math.floor((distancia % (1000 * 60)) / 1000);
+    document.getElementById("temporizador").innerHTML = `${horas}h ${minutos}m ${segundos}s`;
+}
+setInterval(actualizarTemporizador, 1000);
+
+// Catálogo y formulario
 const productos = document.querySelectorAll('.producto');
 const modal = document.getElementById('modal');
 const imgModal = document.getElementById('imagenModal');
@@ -205,17 +288,14 @@ productos.forEach(prod => {
         mostrarImagen();
         modal.style.display = 'flex';
     });
-
     prod.querySelector('.whatsapp-btn').addEventListener('click', () => {
         productoSeleccionado = nombre;
         document.getElementById('modalForm').style.display = 'flex';
     });
 });
-
 function mostrarImagen() {
     imgModal.src = imagenesActuales[indiceActual];
 }
-
 document.getElementById('anterior').onclick = () => {
     indiceActual = (indiceActual - 1 + imagenesActuales.length) % imagenesActuales.length;
     mostrarImagen();
@@ -224,18 +304,12 @@ document.getElementById('siguiente').onclick = () => {
     indiceActual = (indiceActual + 1) % imagenesActuales.length;
     mostrarImagen();
 };
-
-// Cerrar modal con X
 document.getElementById('cerrarModal').onclick = () => modal.style.display = 'none';
 document.getElementById('cerrarForm').onclick = () => document.getElementById('modalForm').style.display = 'none';
-
-// Cerrar modal al hacer clic fuera
 window.addEventListener('click', (e) => {
     if (e.target === modal) modal.style.display = 'none';
     if (e.target === document.getElementById('modalForm')) document.getElementById('modalForm').style.display = 'none';
 });
-
-// Enviar a WhatsApp
 document.getElementById('enviarWhatsApp').addEventListener('click', () => {
     let nombre = document.getElementById('nombreCliente').value;
     let telefono = document.getElementById('telefonoCliente').value;
@@ -245,12 +319,10 @@ document.getElementById('enviarWhatsApp').addEventListener('click', () => {
     let talla = document.getElementById('tallaCliente').value;
     let descripcion = document.getElementById('descripcionCliente').value || "No especificado";
     let contacto = document.getElementById('contactoOpcional').value || "No especificado";
-
     if (!nombre || !telefono || !direccion || !barrio || !color || !talla) {
         alert("Por favor completa todos los campos obligatorios.");
         return;
     }
-
     let mensaje = `Hola, quiero comprar: ${productoSeleccionado}%0A` +
                   `Nombre: ${nombre}%0A` +
                   `Teléfono: ${telefono}%0A` +
@@ -260,7 +332,6 @@ document.getElementById('enviarWhatsApp').addEventListener('click', () => {
                   `Talla: ${talla}%0A` +
                   `Descripción: ${descripcion}%0A` +
                   `Número de contacto opcional: ${contacto}`;
-
     window.open(`https://wa.me/573117947704?text=${mensaje}`, '_blank');
 });
 </script>
