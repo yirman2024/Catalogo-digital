@@ -1,208 +1,405 @@
-<header>
-    Catálogo Tenis Puma
-    <div class="oferta">
-        🎉 <span class="texto-oferta">OFERTA ESPECIAL:</span> 2 pares por tan solo 
-        <span class="precio">$168.000 COP</span> 💥
-        <div id="contador"></div>
-    </div>
-</header>
-
-<section class="caracteristicas">
-    <h2>Características del producto</h2>
-    <ul>
-        <li>✅ Material de alta calidad</li>
-        <li>✅ Diseño moderno y cómodo</li>
-        <li>✅ Disponible en tallas 35 a 43</li>
-        <li>✅ Varios colores a elegir</li>
-        <li>✅ Ideal para uso diario</li>
-    </ul>
-</section>
-
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Catálogo Tenis Puma</title>
 <style>
-    .oferta {
-        margin-top: 10px;
-        font-size: 20px;
-        font-weight: bold;
-        text-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background: #f4f4f4;
     }
-    .texto-oferta {
-        color: #ffcc00;
-        text-shadow: 1px 1px 3px black;
+    header {
+        text-align: center;
+        padding: 20px;
+        background: #000;
+        color: #fff;
         font-size: 24px;
     }
-    .precio {
-        color: #ff4444;
-        font-size: 26px;
-        text-shadow: 2px 2px 4px black;
-    }
-    #contador {
-        font-size: 22px;
-        margin-top: 5px;
-        color: #00ff99;
-        font-weight: bold;
-        text-shadow: 1px 1px 3px black;
-    }
-    .caracteristicas {
-        background: white;
+    /* Catálogo */
+    .catalogo {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        gap: 15px;
         padding: 20px;
-        margin: 15px auto;
-        max-width: 600px;
+        max-width: 900px;
+        margin: auto;
+    }
+    .producto {
+        background: #fff;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+    .producto img {
+        width: 220px;
+        height: 220px;
+        object-fit: cover;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+    .producto h3 {
+        margin: 10px 0;
+    }
+    .whatsapp-btn {
+        display: inline-block;
+        padding: 10px 15px;
+        background: #25d366;
+        color: #fff;
+        border-radius: 5px;
+        font-size: 14px;
+        margin-top: 5px;
+        cursor: pointer;
+    }
+    /* Modal carrusel */
+    .modal, .modal-form {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        left: 0; top: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.9);
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+    .modal-content {
+        position: relative;
+        max-width: 90%;
+        max-height: 90%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .modal img {
+        max-width: 100%;
+        max-height: 80vh;
         border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        display: block;
+        margin: auto;
+        object-fit: contain;
+    }
+    .cerrar {
+        position: absolute;
+        top: 10px; 
+        right: 15px;
+        font-size: 28px;
+        font-weight: bold;
+        color: red;
+        cursor: pointer;
+        z-index: 10000;
+    }
+    .flecha {
+        position: absolute;
+        top: 50%;
+        font-size: 40px;
+        color: #fff;
+        cursor: pointer;
+        user-select: none;
+        transform: translateY(-50%);
+    }
+    .izquierda { left: 20px; }
+    .derecha { right: 20px; }
+    /* Formulario */
+    .formulario {
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 400px;
+        width: 100%;
+        position: relative;
+    }
+    .formulario h2 {
+        margin-bottom: 15px;
+        text-align: center;
+    }
+    .formulario input, .formulario select, .formulario textarea {
+        width: 100%;
+        padding: 8px;
+        margin: 5px 0 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    .formulario button {
+        width: 100%;
+        padding: 10px;
+        background: #25d366;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    /* Oferta especial */
+    .oferta-especial {
+        max-width: 900px;
+        margin: 20px auto;
+        background: #222;
+        padding: 20px;
+        border-radius: 12px;
+        text-align: center;
+        color: white;
+        font-weight: bold;
+        font-size: 28px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        /* Texto 3D con sombra */
+        text-shadow:
+            2px 2px 4px #ff0000,
+            4px 4px 6px #990000,
+            6px 6px 8px #660000;
+    }
+    .oferta-especial span.precio {
+        color: #ffd700; /* dorado */
+        font-size: 36px;
+        text-shadow:
+            3px 3px 6px #b8860b,
+            5px 5px 10px #654321;
+    }
+    .oferta-especial span.tiempo {
+        color: #00ffea; /* cian */
+        font-size: 32px;
+        text-shadow:
+            2px 2px 5px #008080,
+            4px 4px 10px #004040;
+        margin-left: 10px;
+    }
+
+    /* Características */
+    .caracteristicas {
+        max-width: 900px;
+        margin: 40px auto 60px;
+        background: white;
+        border-radius: 12px;
+        padding: 25px 30px;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        font-size: 18px;
+        color: #333;
     }
     .caracteristicas h2 {
-        color: #333;
+        margin-bottom: 20px;
+        color: #000;
         text-align: center;
-        margin-bottom: 15px;
-        text-shadow: 1px 1px 2px #aaa;
+        text-transform: uppercase;
+        letter-spacing: 2px;
     }
     .caracteristicas ul {
-        list-style: none;
-        padding: 0;
+        list-style: disc inside;
+        line-height: 1.6;
     }
-    .caracteristicas li {
-        font-size: 18px;
-        margin: 8px 0;
+
+    /* Temporizador */
+    #temporizador {
+        display: inline-block;
+        background: #000;
+        color: #fff;
+        font-weight: 900;
+        font-size: 38px;
+        padding: 8px 15px;
+        border-radius: 12px;
+        margin-left: 15px;
+        font-family: monospace;
+        /* 3D sombra */
+        text-shadow:
+            3px 3px 7px #008080,
+            5px 5px 12px #004040;
+        user-select: none;
     }
 </style>
+</head>
+<body>
 
-<script>
-    // Tiempo inicial en segundos (ej: 1 hora = 3600s)
-    let tiempoInicial = 3600;
-    
-    // Cargar tiempo restante desde localStorage o usar inicial
-    let tiempoRestante = localStorage.getItem('tiempoRestante');
-    if (!tiempoRestante || tiempoRestante <= 0) {
-        tiempoRestante = tiempoInicial;
-    } else {
-        tiempoRestante = parseInt(tiempoRestante);
-    }
+<header>Catálogo Tenis Puma</header>
 
-    function actualizarContador() {
-        let horas = Math.floor(tiempoRestante / 3600);
-        let minutos = Math.floor((tiempoRestante % 3600) / 60);
-        let segundos = tiempoRestante % 60;
+<!-- Oferta especial con temporizador -->
+<div class="oferta-especial" aria-live="polite" role="region" aria-label="Oferta especial con temporizador">
+  Oferta especial: <span>2 pares por tan solo</span> 
+  <span class="precio">168.000 COP</span> 
+  <span>por tiempo limitado</span> 
+  <span id="temporizador" aria-live="assertive" aria-atomic="true" aria-label="Cuenta regresiva">00:00:00</span>
+</div>
 
-        document.getElementById('contador').textContent = 
-            `${horas.toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
-
-        // Guardar en localStorage
-        localStorage.setItem('tiempoRestante', tiempoRestante);
-
-        if (tiempoRestante > 0) {
-            tiempoRestante--;
-        } else {
-            // Reiniciar
-            tiempoRestante = tiempoInicial;
-        }
-    }
-
-    setInterval(actualizarContador, 1000);
-    actualizarContador();
-</script>
-<header>
-    Catálogo Tenis Puma
-    <div class="oferta">
-        🎉 <span class="texto-oferta">OFERTA ESPECIAL:</span> 2 pares por tan solo 
-        <span class="precio">$168.000 COP</span> 💥
-        <div id="contador"></div>
+<div class="catalogo" id="catalogo">
+    <div class="producto" 
+         data-imagenes='["imagen/puma1.jpeg","imagen/puma2.jpeg","imagen/puma3.jpeg","imagen/puma4.jpeg"]' 
+         data-nombre="Tenis Puma">
+        <img src="imagen/puma1.jpeg" alt="Tenis Puma" />
+        <h3>Tenis Puma</h3>
+        <div class="whatsapp-btn">Comprar</div>
     </div>
-</header>
+</div>
 
-<section class="caracteristicas">
-    <h2>Características del producto</h2>
-    <ul>
-        <li>✅ Material de alta calidad</li>
-        <li>✅ Diseño moderno y cómodo</li>
-        <li>✅ Disponible en tallas 35 a 43</li>
-        <li>✅ Varios colores a elegir</li>
-        <li>✅ Ideal para uso diario</li>
-    </ul>
+<!-- Sección características -->
+<section class="caracteristicas" aria-label="Características del producto">
+  <h2>Características del Producto</h2>
+  <ul>
+    <li>Material superior transpirable para mayor comodidad.</li>
+    <li>Suela de goma antideslizante para mejor agarre.</li>
+    <li>Diseño moderno y estilizado para uso diario y deportivo.</li>
+    <li>Disponible en múltiples colores y tallas.</li>
+    <li>Excelente relación calidad-precio.</li>
+  </ul>
 </section>
 
-<style>
-    .oferta {
-        margin-top: 10px;
-        font-size: 20px;
-        font-weight: bold;
-        text-shadow: 2px 2px 5px rgba(0,0,0,0.4);
-    }
-    .texto-oferta {
-        color: #ffcc00;
-        text-shadow: 1px 1px 3px black;
-        font-size: 24px;
-    }
-    .precio {
-        color: #ff4444;
-        font-size: 26px;
-        text-shadow: 2px 2px 4px black;
-    }
-    #contador {
-        font-size: 22px;
-        margin-top: 5px;
-        color: #00ff99;
-        font-weight: bold;
-        text-shadow: 1px 1px 3px black;
-    }
-    .caracteristicas {
-        background: white;
-        padding: 20px;
-        margin: 15px auto;
-        max-width: 600px;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    }
-    .caracteristicas h2 {
-        color: #333;
-        text-align: center;
-        margin-bottom: 15px;
-        text-shadow: 1px 1px 2px #aaa;
-    }
-    .caracteristicas ul {
-        list-style: none;
-        padding: 0;
-    }
-    .caracteristicas li {
-        font-size: 18px;
-        margin: 8px 0;
-    }
-</style>
+<!-- Modal carrusel -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-content">
+        <span class="cerrar" id="cerrarModal" role="button" aria-label="Cerrar">&times;</span>
+        <span class="flecha izquierda" id="anterior" role="button" aria-label="Imagen anterior">&#10094;</span>
+        <img id="imagenModal" alt="Imagen del producto" />
+        <span class="flecha derecha" id="siguiente" role="button" aria-label="Imagen siguiente">&#10095;</span>
+    </div>
+</div>
+
+<!-- Modal formulario -->
+<div class="modal-form" id="modalForm" role="dialog" aria-modal="true" aria-labelledby="formTitle">
+    <div class="formulario">
+        <span class="cerrar" id="cerrarForm" role="button" aria-label="Cerrar formulario">&times;</span>
+        <h2 id="formTitle">Completa tu pedido</h2>
+        <input type="text" id="nombreCliente" placeholder="Nombre completo" required />
+        <input type="tel" id="telefonoCliente" placeholder="Teléfono" required />
+        <input type="text" id="direccionCliente" placeholder="Dirección" required />
+        <input type="text" id="barrioCliente" placeholder="Barrio" required />
+        <select id="colorCliente" required>
+            <option value="">Seleccione color</option>
+            <option>Rojo</option>
+            <option>Azul</option>
+            <option>Negro</option>
+            <option>Blanco</option>
+            <option>Gris</option>
+        </select>
+        <select id="tallaCliente" required>
+            <option value="">Seleccione talla</option>
+            <script>
+                for(let i=35; i<=43; i++) {
+                    document.write(`<option>${i}</option>`);
+                }
+            </script>
+        </select>
+        <textarea id="descripcionCliente" placeholder="Descripción opcional"></textarea>
+        <input type="tel" id="contactoOpcional" placeholder="Número de contacto opcional" />
+        <button id="enviarWhatsApp">Enviar por WhatsApp</button>
+    </div>
+</div>
 
 <script>
-    // Tiempo inicial en segundos (ej: 1 hora = 3600s)
-    let tiempoInicial = 3600;
-    
-    // Cargar tiempo restante desde localStorage o usar inicial
-    let tiempoRestante = localStorage.getItem('tiempoRestante');
-    if (!tiempoRestante || tiempoRestante <= 0) {
-        tiempoRestante = tiempoInicial;
-    } else {
-        tiempoRestante = parseInt(tiempoRestante);
+const productos = document.querySelectorAll('.producto');
+const modal = document.getElementById('modal');
+const imgModal = document.getElementById('imagenModal');
+let imagenesActuales = [];
+let indiceActual = 0;
+let productoSeleccionado = "";
+
+productos.forEach(prod => {
+    const nombre = prod.dataset.nombre;
+    prod.querySelector('img').addEventListener('click', () => {
+        imagenesActuales = JSON.parse(prod.dataset.imagenes);
+        indiceActual = 0;
+        mostrarImagen();
+        modal.style.display = 'flex';
+    });
+
+    prod.querySelector('.whatsapp-btn').addEventListener('click', () => {
+        productoSeleccionado = nombre;
+        document.getElementById('modalForm').style.display = 'flex';
+    });
+});
+
+function mostrarImagen() {
+    imgModal.src = imagenesActuales[indiceActual];
+}
+
+document.getElementById('anterior').onclick = () => {
+    indiceActual = (indiceActual - 1 + imagenesActuales.length) % imagenesActuales.length;
+    mostrarImagen();
+};
+document.getElementById('siguiente').onclick = () => {
+    indiceActual = (indiceActual + 1) % imagenesActuales.length;
+    mostrarImagen();
+};
+
+// Cerrar modal con X
+document.getElementById('cerrarModal').onclick = () => modal.style.display = 'none';
+document.getElementById('cerrarForm').onclick = () => document.getElementById('modalForm').style.display = 'none';
+
+// Cerrar modal al hacer clic fuera
+window.addEventListener('click', (e) => {
+    if (e.target === modal) modal.style.display = 'none';
+    if (e.target === document.getElementById('modalForm')) document.getElementById('modalForm').style.display = 'none';
+});
+
+// Enviar a WhatsApp
+document.getElementById('enviarWhatsApp').addEventListener('click', () => {
+    let nombre = document.getElementById('nombreCliente').value.trim();
+    let telefono = document.getElementById('telefonoCliente').value.trim();
+    let direccion = document.getElementById('direccionCliente').value.trim();
+    let barrio = document.getElementById('barrioCliente').value.trim();
+    let color = document.getElementById('colorCliente').value;
+    let talla = document.getElementById('tallaCliente').value;
+    let descripcion = document.getElementById('descripcionCliente').value.trim() || "No especificado";
+    let contacto = document.getElementById('contactoOpcional').value.trim() || "No especificado";
+
+    if (!nombre || !telefono || !direccion || !barrio || !color || !talla) {
+        alert("Por favor completa todos los campos obligatorios.");
+        return;
     }
 
-    function actualizarContador() {
-        let horas = Math.floor(tiempoRestante / 3600);
-        let minutos = Math.floor((tiempoRestante % 3600) / 60);
-        let segundos = tiempoRestante % 60;
+    let mensaje = `Hola, quiero comprar: ${productoSeleccionado}%0A` +
+                  `Nombre: ${nombre}%0A` +
+                  `Teléfono: ${telefono}%0A` +
+                  `Dirección: ${direccion}%0A` +
+                  `Barrio: ${barrio}%0A` +
+                  `Color: ${color}%0A` +
+                  `Talla: ${talla}%0A` +
+                  `Descripción: ${descripcion}%0A` +
+                  `Número de contacto opcional: ${contacto}`;
 
-        document.getElementById('contador').textContent = 
-            `${horas.toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
+    window.open(`https://wa.me/573117947704?text=${mensaje}`, '_blank');
+});
 
-        // Guardar en localStorage
-        localStorage.setItem('tiempoRestante', tiempoRestante);
+/* -- Temporizador cuenta regresiva persistente -- */
+const temporizadorEl = document.getElementById('temporizador');
+const DURACION_SEGUNDOS = 2 * 60 * 60; // 2 horas por ejemplo (ajustable)
 
-        if (tiempoRestante > 0) {
-            tiempoRestante--;
-        } else {
-            // Reiniciar
-            tiempoRestante = tiempoInicial;
+function iniciarTemporizador() {
+    // Intentar recuperar fin de tiempo guardado
+    let finTimestamp = localStorage.getItem('temporizadorFin');
+    const ahora = Date.now();
+
+    if (!finTimestamp || ahora > finTimestamp) {
+        // Si no existe o ya pasó, poner nuevo fin en DURACION_SEGUNDOS desde ahora
+        finTimestamp = ahora + DURACION_SEGUNDOS * 1000;
+        localStorage.setItem('temporizadorFin', finTimestamp);
+    }
+
+    function actualizar() {
+        const ahora = Date.now();
+        let diferencia = finTimestamp - ahora;
+
+        if (diferencia <= 0) {
+            // Reiniciar temporizador
+            const nuevoFin = ahora + DURACION_SEGUNDOS * 1000;
+            localStorage.setItem('temporizadorFin', nuevoFin);
+            diferencia = nuevoFin - ahora;
         }
+
+        const horas = Math.floor(diferencia / (1000 * 60 * 60));
+        const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+        const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+
+        temporizadorEl.textContent = 
+            `${horas.toString().padStart(2,'0')}:${minutos.toString().padStart(2,'0')}:${segundos.toString().padStart(2,'0')}`;
     }
 
-    setInterval(actualizarContador, 1000);
-    actualizarContador();
+    actualizar();
+    setInterval(actualizar, 1000);
+}
+
+iniciarTemporizador();
 </script>
 
-
-
+</body>
+</html>
 
