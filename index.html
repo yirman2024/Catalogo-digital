@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Catálogo Tenis Puma</title>
 <style>
     body {
@@ -75,7 +75,7 @@
     }
     .modal img {
         max-width: 100%;
-        max-height: 80vh;
+        max-height: 80vh; /* Limita altura */
         border-radius: 10px;
         display: block;
         margin: auto;
@@ -132,136 +132,41 @@
         cursor: pointer;
         font-size: 16px;
     }
-
-    /* Oferta especial */
-    .oferta-especial {
-        max-width: 900px;
-        margin: 20px auto;
-        background: #222;
-        padding: 20px;
-        border-radius: 12px;
-        text-align: center;
-        color: white;
-        font-weight: bold;
-        font-size: 28px;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        /* Texto 3D con sombra */
-        text-shadow:
-            2px 2px 4px #ff0000,
-            4px 4px 6px #990000,
-            6px 6px 8px #660000;
-    }
-    .oferta-especial span.precio {
-        color: #ffd700; /* dorado */
-        font-size: 36px;
-        text-shadow:
-            3px 3px 6px #b8860b,
-            5px 5px 10px #654321;
-    }
-    .oferta-especial span.tiempo {
-        color: #00ffea; /* cian */
-        font-size: 32px;
-        text-shadow:
-            2px 2px 5px #008080,
-            4px 4px 10px #004040;
-        margin-left: 10px;
-    }
-
-    /* Características */
-    .caracteristicas {
-        max-width: 900px;
-        margin: 40px auto 60px;
-        background: white;
-        border-radius: 12px;
-        padding: 25px 30px;
-        box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-        font-size: 18px;
-        color: #333;
-    }
-    .caracteristicas h2 {
-        margin-bottom: 20px;
-        color: #000;
-        text-align: center;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-    }
-    .caracteristicas ul {
-        list-style: disc inside;
-        line-height: 1.6;
-    }
-
-    /* Temporizador */
-    #temporizador {
-        display: inline-block;
-        background: #000;
-        color: #fff;
-        font-weight: 900;
-        font-size: 38px;
-        padding: 8px 15px;
-        border-radius: 12px;
-        margin-left: 15px;
-        font-family: monospace;
-        /* 3D sombra */
-        text-shadow:
-            3px 3px 7px #008080,
-            5px 5px 12px #004040;
-        user-select: none;
-    }
 </style>
 </head>
 <body>
 
 <header>Catálogo Tenis Puma</header>
 
-<!-- Oferta especial con temporizador -->
-<div class="oferta-especial" aria-live="polite" role="region" aria-label="Oferta especial con temporizador">
-  Oferta especial: <span>2 pares por tan solo</span> 
-  <span class="precio">168.000 COP</span> 
-  <span>por tiempo limitado</span> 
-  <span id="temporizador" aria-live="assertive" aria-atomic="true" aria-label="Cuenta regresiva">00:00:00</span>
-</div>
-
 <div class="catalogo" id="catalogo">
     <div class="producto" 
          data-imagenes='["imagen/puma1.jpeg","imagen/puma2.jpeg","imagen/puma3.jpeg","imagen/puma4.jpeg"]' 
          data-nombre="Tenis Puma">
-        <img src="imagen/puma1.jpeg" alt="Tenis Puma" />
+        <img src="imagen/puma1.jpeg" alt="Tenis Puma">
         <h3>Tenis Puma</h3>
         <div class="whatsapp-btn">Comprar</div>
     </div>
 </div>
 
-<!-- Sección características -->
-<section class="caracteristicas" aria-label="Características del producto">
-  <h2>Características del Producto</h2>
-  <ul>
-    <li>Material superior transpirable para mayor comodidad.</li>
-    <li>Suela de goma antideslizante para mejor agarre.</li>
-    <li>Diseño moderno y estilizado para uso diario y deportivo.</li>
-    <li>Disponible en múltiples colores y tallas.</li>
-    <li>Excelente relación calidad-precio.</li>
-  </ul>
-</section>
-
 <!-- Modal carrusel -->
-<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+<div class="modal" id="modal">
     <div class="modal-content">
-        <span class="cerrar" id="cerrarModal" role="button" aria-label="Cerrar">&times;</span>
-        <span class="flecha izquierda" id="anterior" role="button" aria-label="Imagen anterior">&#10094;</span>
-        <img id="imagenModal" alt="Imagen del producto" />
-        <span class="flecha derecha" id="siguiente" role="button" aria-label="Imagen siguiente">&#10095;</span>
+        <span class="cerrar" id="cerrarModal">&times;</span>
+        <span class="flecha izquierda" id="anterior">&#10094;</span>
+        <img id="imagenModal">
+        <span class="flecha derecha" id="siguiente">&#10095;</span>
     </div>
 </div>
 
 <!-- Modal formulario -->
-<div class="modal-form" id="modalForm" role="dialog" aria-modal="true" aria-labelledby="formTitle">
+<div class="modal-form" id="modalForm">
     <div class="formulario">
-        <span class="cerrar" id="cerrarForm" role="button" aria-label="Cerrar formulario">&times;</span>
-        <h2 id="formTitle">Completa tu pedido</h2>
-        <input type="text" id="nombreCliente" placeholder="Nombre completo" required />
-        <input type="tel" id="telefonoCliente" placeholder="Teléfono" required />
-        <input type="text" id="direccionCliente" placeholder="Dirección" required />
-        <input type="text" id="barrioCliente" placeholder="Barrio" required />
+        <span class="cerrar" id="cerrarForm">&times;</span>
+        <h2>Completa tu pedido</h2>
+        <input type="text" id="nombreCliente" placeholder="Nombre completo" required>
+        <input type="tel" id="telefonoCliente" placeholder="Teléfono" required>
+        <input type="text" id="direccionCliente" placeholder="Dirección" required>
+        <input type="text" id="barrioCliente" placeholder="Barrio" required>
         <select id="colorCliente" required>
             <option value="">Seleccione color</option>
             <option>Rojo</option>
@@ -279,7 +184,7 @@
             </script>
         </select>
         <textarea id="descripcionCliente" placeholder="Descripción opcional"></textarea>
-        <input type="tel" id="contactoOpcional" placeholder="Número de contacto opcional" />
+        <input type="tel" id="contactoOpcional" placeholder="Número de contacto opcional">
         <button id="enviarWhatsApp">Enviar por WhatsApp</button>
     </div>
 </div>
@@ -332,14 +237,14 @@ window.addEventListener('click', (e) => {
 
 // Enviar a WhatsApp
 document.getElementById('enviarWhatsApp').addEventListener('click', () => {
-    let nombre = document.getElementById('nombreCliente').value.trim();
-    let telefono = document.getElementById('telefonoCliente').value.trim();
-    let direccion = document.getElementById('direccionCliente').value.trim();
-    let barrio = document.getElementById('barrioCliente').value.trim();
+    let nombre = document.getElementById('nombreCliente').value;
+    let telefono = document.getElementById('telefonoCliente').value;
+    let direccion = document.getElementById('direccionCliente').value;
+    let barrio = document.getElementById('barrioCliente').value;
     let color = document.getElementById('colorCliente').value;
     let talla = document.getElementById('tallaCliente').value;
-    let descripcion = document.getElementById('descripcionCliente').value.trim() || "No especificado";
-    let contacto = document.getElementById('contactoOpcional').value.trim() || "No especificado";
+    let descripcion = document.getElementById('descripcionCliente').value || "No especificado";
+    let contacto = document.getElementById('contactoOpcional').value || "No especificado";
 
     if (!nombre || !telefono || !direccion || !barrio || !color || !talla) {
         alert("Por favor completa todos los campos obligatorios.");
@@ -358,46 +263,6 @@ document.getElementById('enviarWhatsApp').addEventListener('click', () => {
 
     window.open(`https://wa.me/573117947704?text=${mensaje}`, '_blank');
 });
-
-/* -- Temporizador cuenta regresiva persistente -- */
-const temporizadorEl = document.getElementById('temporizador');
-const DURACION_SEGUNDOS = 2 * 60 * 60; // 2 horas por ejemplo (ajustable)
-
-function iniciarTemporizador() {
-    // Intentar recuperar fin de tiempo guardado
-    let finTimestamp = localStorage.getItem('temporizadorFin');
-    const ahora = Date.now();
-
-    if (!finTimestamp || ahora > finTimestamp) {
-        // Si no existe o ya pasó, poner nuevo fin en DURACION_SEGUNDOS desde ahora
-        finTimestamp = ahora + DURACION_SEGUNDOS * 1000;
-        localStorage.setItem('temporizadorFin', finTimestamp);
-    }
-
-    function actualizar() {
-        const ahora = Date.now();
-        let diferencia = finTimestamp - ahora;
-
-        if (diferencia <= 0) {
-            // Reiniciar temporizador
-            const nuevoFin = ahora + DURACION_SEGUNDOS * 1000;
-            localStorage.setItem('temporizadorFin', nuevoFin);
-            diferencia = nuevoFin - ahora;
-        }
-
-        const horas = Math.floor(diferencia / (1000 * 60 * 60));
-        const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
-        const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
-
-        temporizadorEl.textContent = 
-            `${horas.toString().padStart(2,'0')}:${minutos.toString().padStart(2,'0')}:${segundos.toString().padStart(2,'0')}`;
-    }
-
-    actualizar();
-    setInterval(actualizar, 1000);
-}
-
-iniciarTemporizador();
 </script>
 
 </body>
